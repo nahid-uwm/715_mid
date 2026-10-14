@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2457d6">
+<title>CS 715 Midterm Lab</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<link rel="stylesheet" href="assets/core.css">
+</head>
+<body data-page="index">
+<main class="main"><div class="main-narrow">
+  <section class="hero">
+    <h1>CS 715 Midterm Lab 🐍</h1>
+    <p>Practice exam, quizzes, lecture code and homework, all with visual explanations, runnable code, and a
+      <b>step-through animation</b> that shows exactly what Python does in memory.</p>
+  </section>
+
+  <div class="hub-grid">
+    <a class="hub-card" href="practice.html"><div class="ico">📝</div><h3>Practice Exam</h3><p>All 15 questions with full solutions, model answers and 49 likely alternatives.</p><div class="count">Start here →</div></a>
+    <a class="hub-card" href="quizzes.html"><div class="ico">✅</div><h3>Quizzes 2–4</h3><p>30 multiple-choice questions you can click to answer, with explanations.</p><div class="count">Interactive MCQ →</div></a>
+    <a class="hub-card" href="lectures.html"><div class="ico">📚</div><h3>Lectures 1–5</h3><p>Every lecture code example, cleaned up, runnable and explained.</p><div class="count">Code + traces →</div></a>
+    <a class="hub-card" href="homework.html"><div class="ico">🧩</div><h3>Homework 2–3</h3><p>Every snippet and task with full solution code and model written answers.</p><div class="count">Solutions →</div></a>
+  </div>
+
+  <section class="card">
+    <h2 style="margin-top:0">👣 How the step-through works (try it)</h2>
+    <p>Press <b>👣 Step-through</b> and then <b>▶ Play</b> (or use ◀ ▶ / your arrow keys). Left: your code, with the <b style="color:var(--ok)">green line</b> about to run.
+      Right: <b>Variables</b> (names) and <b>Objects</b> (values in memory). An <b>arrow</b> means “this name refers to that object”.
+      <b>Two arrows into one box = the same object</b>, which is the idea behind half the exam.</p>
+    <div id="demo"></div>
+  </section>
+
+  <section>
+    <h2 class="sec-title">🔥 Most likely on the exam: 10 patterns</h2>
+    <p class="sec-intro">The practice exam says the real one uses <b>different code with the same ideas</b>. These are those ideas in their most testable form. Predict each output, then press Run.</p>
+    <div id="hot"></div>
+  </section>
+
+  <section class="card">
+    <h2 style="margin-top:0">⏱ 2-hour plan for today</h2>
+    <div class="table-wrap"><table class="plan">
+      <tr><th>Time</th><th>Do this</th></tr>
+      <tr><td>0:00–0:15</td><td><b>Hot list above:</b> predict all 10, then run. Mark the ones you missed.</td></tr>
+      <tr><td>0:15–0:55</td><td><a href="practice.html">Practice Exam</a>: Part A with <b>Quiz mode on</b>, then check. Step through A1, A9, A10.</td></tr>
+      <tr><td>0:55–1:00</td><td>Break.</td></tr>
+      <tr><td>1:00–1:25</td><td>Practice B, C, D. <b>Write D2's <code>__eq__</code>/<code>__hash__</code> from memory.</b> Do the alternatives under each question.</td></tr>
+      <tr><td>1:25–1:40</td><td><a href="homework.html">Homework</a>: HW2 S1–S6 and HW3 S1–S6 (predict, then step through).</td></tr>
+      <tr><td>1:40–1:52</td><td><a href="quizzes.html">Quizzes</a>: click through all 30 quickly. Read the explanation only for misses.</td></tr>
+      <tr><td>1:52–2:00</td><td>Read the Key Concepts below twice.</td></tr>
+    </table></div>
+  </section>
+
+  <section class="card">
+    <h2 style="margin-top:0">★ Key Concepts (cheat sheet)</h2>
+    <div id="concepts" class="concept-grid"></div>
+  </section>
+
+  <section class="card">
+    <h2 style="margin-top:0">✍️ Exam-day technique</h2>
+    <ul>
+      <li><b>Part A (predict output):</b> draw names → arrows → boxes. Copy Python's exact format: <code>['a', 'b']</code> with single quotes and a space after each comma.</li>
+      <li><b>Part B (explain):</b> mechanism + concrete example + fix, in 2–4 sentences.</li>
+      <li><b>Part C (find & fix):</b> three labelled answers: <b>Output / Cause / Fix</b>.</li>
+      <li><b>Part D (write code):</b> use exactly the construct named (comprehension, <code>reduce</code>, <code>map</code> + <code>filter</code>). Give <code>reduce</code> an initial value when the items are tuples.</li>
+      <li>Budget about 0.6 min per point. Stuck for more than 3 min? Skip it and come back.</li>
+    </ul>
+  </section>
+</div></main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/runmode/runmode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+<script src="data/practice-questions.js"></script>
+<script src="data/hot.js"></script>
+<script src="assets/core.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const { codeBlock, esc } = Core;
+  document.getElementById("demo").append(codeBlock(`a = [1, 2]
+b = a           # b points to the SAME list
+b.append(3)     # mutate through b
+c = a[:]        # c is a NEW list (copy)
+c.append(4)
+print(a, b, c)
+print(a is b, a is c)`, { label: "Demo: aliasing vs copying" }));
+  const hot = document.getElementById("hot");
+  HOT.forEach((h, k) => {
+    const card = document.createElement("article");
+    card.className = "card"; card.id = "hot-" + h.id;
+    card.innerHTML = `<div class="item-head"><h3>${k + 1}. ${h.title}</h3><span class="tag">${esc(h.src)}</span></div>`;
+    card.append(codeBlock(h.code, { label: "Predict, then run" }));
+    const d = document.createElement("details");
+    d.innerHTML = `<summary style="cursor:pointer;color:var(--accent);font-weight:600">Show answer & why</summary><pre class="out" style="margin-top:6px">${esc(h.out)}</pre><div class="box key" style="margin-top:8px">${h.why}</div>`;
+    card.append(d); hot.append(card);
+  });
+  document.getElementById("concepts").innerHTML = CONCEPTS.map(([t, b]) => `<div class="concept"><b>${t}</b>${b}</div>`).join("");
+});
+</script>
+</body>
+</html>
